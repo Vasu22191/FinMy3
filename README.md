@@ -103,7 +103,6 @@ Email delivery and failure statuses are recorded in `Email Log`.
 4. Use these settings:
    - Framework Preset: `Vite`
    - Build Command: `npm run build`
-   - Output Directory: `.output/public`
    - Install Command: `npm install`
 5. Add the environment variables from `.env.example` in Vercel Project Settings.
 6. Deploy the project.
