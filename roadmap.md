@@ -1,0 +1,4 @@
+- [ ] Build FinMyTri home, services, solutions, about and contact pages with shared navigation and footer.
+- [ ] Add the enquiry form, validation, Apps Script endpoint code and setup instructions.
+- [ ] Configure WhatsApp contact with +91 8897085834 and verify navigation and mobile layout.
+- [ ] Keep Google Sheet connection pending until the user deploys Apps Script and sets its endpoint.

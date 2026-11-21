@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+Keep the enquiry flow as a configurable browser form plus a separately deployable Google Apps Script file, so submissions reach the user's chosen sheet without adding a custom app backend.
