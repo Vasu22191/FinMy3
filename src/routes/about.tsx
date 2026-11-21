@@ -1,59 +1,125 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Compass, Handshake, Scale, Sparkles } from "lucide-react";
+import { ArrowRight, Calculator, Eye, Landmark, LineChart, ShieldCheck, Target } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
-import { AboutIntro, ContactCallout, PageIntro } from "@/components/finmytri-sections";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About FinMyTri | Financial Clarity for Business" },
-      { name: "description", content: "Learn about FinMyTri's mission, vision, values, and practical approach to financial consulting and virtual CFO support." },
-      { property: "og:title", content: "About FinMyTri | Financial Clarity for Business" },
-      { property: "og:description", content: "Learn about FinMyTri's mission, vision, values, and practical approach to financial consulting and virtual CFO support." },
+      { title: "About FinMy3 | Financial Clarity for Business" },
+      { name: "description", content: "Learn about FinMy3's mission, vision, and professional financial solutions for growing businesses." },
+      { property: "og:title", content: "About FinMy3 | Financial Clarity for Business" },
+      { property: "og:description", content: "Learn about FinMy3's mission, vision, and professional financial solutions for growing businesses." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: AboutPage,
 });
 
+const serviceHighlights = [
+  { title: "Accounting & Bookkeeping", Icon: Calculator },
+  { title: "Virtual CFO Services", Icon: Landmark },
+  { title: "Tax Compliance & Support", Icon: ShieldCheck },
+  { title: "Financial Reporting", Icon: LineChart },
+  { title: "Financial Modelling & Financial Strategy", Icon: Target },
+];
+
 function AboutPage() {
-  const values = [
-    { title: "Clarity", text: "Make financial information easier to understand and act on.", Icon: Compass },
-    { title: "Partnership", text: "Listen closely and shape support around each business.", Icon: Handshake },
-    { title: "Practicality", text: "Focus on useful guidance and thoughtful next steps.", Icon: Sparkles },
-    { title: "Integrity", text: "Approach financial questions with care and transparency.", Icon: Scale },
-  ];
+  const [serviceSlide, setServiceSlide] = useState(0);
+  const serviceTrackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setServiceSlide((current) => (current + 1) % serviceHighlights.length);
+    }, 3200);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const track = serviceTrackRef.current;
+    if (!track || window.matchMedia("(min-width: 641px)").matches) return;
+
+    const card = track.querySelector<HTMLElement>(".about-service-card");
+    if (!card) return;
+
+    track.scrollTo({ left: serviceSlide * (card.offsetWidth + 12), behavior: "smooth" });
+  }, [serviceSlide]);
 
   return (
     <>
-      <PageIntro eyebrow="About FinMyTri" title="A more thoughtful relationship with your finances" description="FinMyTri provides financial consulting and virtual CFO support to help businesses see their numbers more clearly and make considered plans." />
-      <section className="page-content">
-        <div className="page-container grid gap-12">
-          <AboutIntro />
-          <div>
-            <div className="max-w-2xl">
-              <p className="eyebrow">Our values</p>
-              <h2 className="section-title mt-3">How we approach the work</h2>
-            </div>
-            <div className="content-grid mt-8">
-              {values.map(({ title, text, Icon }) => (
-                <article key={title} className="content-item">
-                  <Icon size={22} className="text-brand" aria-hidden="true" />
-                  <h3 className="mt-4 text-lg font-extrabold text-foreground">{title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-muted-foreground">{text}</p>
-                </article>
-              ))}
-            </div>
+      <section className="about-hero">
+        <div className="page-container about-hero-grid">
+          <div className="about-hero-copy">
+            <p className="about-pill">About FinMy3</p>
+            <h1>Simplifying Finance.<br /><span>Empowering Growth.</span></h1>
+            <p className="about-lead">At FinMy3, we believe that effective financial management is the foundation of every successful business.</p>
+            <p>We provide comprehensive financial solutions designed to help startups, small businesses, and growing enterprises manage their finances with confidence.</p>
+            <p>Our services cover Accounting &amp; Bookkeeping, Virtual CFO Services, Tax Compliance &amp; Support, Financial Reporting, and Financial Modelling &amp; Financial Strategy.</p>
+            <p>Our focus is to simplify complex financial processes, support informed decision-making, and help businesses build a stronger financial future.</p>
+            <Button asChild variant="brand" size="lg" className="about-cta !text-white">
+              <a href="/services">Explore Our Services <ArrowRight size={18} aria-hidden="true" /></a>
+            </Button>
           </div>
-          <div className="rounded-lg bg-brand-soft p-6 md:p-8">
-            <p className="eyebrow">Why choose FinMyTri</p>
-            <h2 className="mt-3 text-2xl font-extrabold text-foreground">Financial thinking that stays close to the business.</h2>
-            <p className="mt-3 max-w-3xl leading-7 text-muted-foreground">FinMyTri brings financial planning, analysis, reporting, and advisory support together around the decisions your business needs to make. The focus is on useful insight and practical support, not complexity for its own sake.</p>
+          <div className="about-hero-image">
+            <img src="/about-finance.svg" alt="Financial dashboard with a laptop, calculator, and growth chart" />
           </div>
         </div>
       </section>
-      <ContactCallout />
+
+      <section className="about-mission-section">
+        <div className="page-container about-mission-grid">
+          <article className="about-value-card">
+            <span className="about-value-icon"><Target size={24} aria-hidden="true" /></span>
+            <div><h2>Our Mission</h2><p>To make professional financial management accessible, reliable, and straightforward for businesses of all sizes.</p></div>
+          </article>
+          <article className="about-value-card">
+            <span className="about-value-icon"><Eye size={24} aria-hidden="true" /></span>
+            <div><h2>Our Vision</h2><p>To become a trusted financial services partner, empowering businesses to achieve sustainable growth through smarter financial decisions.</p></div>
+          </article>
+        </div>
+      </section>
+
+      <section className="about-services-section">
+        <div className="page-container">
+          <div className="about-section-heading">
+            <p className="about-pill">Why Choose FinMy3?</p>
+            <h2>Your Trusted Financial Partner</h2>
+            <p>We are committed to delivering value through professional, transparent, and business-focused solutions.</p>
+          </div>
+          <div className="about-service-carousel">
+            <div ref={serviceTrackRef} className="about-service-grid">
+              {serviceHighlights.map(({ title, Icon }) => (
+                <article key={title} className="about-service-card">
+                  <span><Icon size={24} aria-hidden="true" /></span>
+                  <h3>{title}</h3>
+                </article>
+              ))}
+            </div>
+            <div className="about-service-dots" aria-label="Choose a service">
+              {serviceHighlights.map((item, index) => (
+                <button key={item.title} type="button" className={index === serviceSlide ? "active" : ""} onClick={() => setServiceSlide(index)} aria-label={`Show ${item.title}`} aria-current={index === serviceSlide ? "true" : undefined} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="about-bottom-cta">
+        <div className="page-container">
+          <div className="about-cta-band">
+            <div className="about-cta-icon" aria-hidden="true">🤝</div>
+            <div className="about-cta-copy">
+              <h2>Let&apos;s Build a Stronger Financial Future Together</h2>
+              <p>Get in touch with us today for personalized financial solutions.</p>
+            </div>
+            <Button asChild variant="secondary" size="lg">
+              <a href="/contact">Contact Us <ArrowRight size={17} aria-hidden="true" /></a>
+            </Button>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

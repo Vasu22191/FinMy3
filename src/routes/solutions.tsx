@@ -11,10 +11,10 @@ const icons = [Rocket, BriefcaseBusiness, ChartNoAxesCombined, Globe2];
 export const Route = createFileRoute("/solutions")({
   head: () => ({
     meta: [
-      { title: "Business Solutions | FinMyTri" },
-      { name: "description", content: "See how FinMyTri supports startups, small businesses, growing companies, and international businesses with practical financial guidance." },
-      { property: "og:title", content: "Business Solutions | FinMyTri" },
-      { property: "og:description", content: "See how FinMyTri supports startups, small businesses, growing companies, and international businesses with practical financial guidance." },
+      { title: "Business Solutions | FinMy3" },
+      { name: "description", content: "See how FinMy3 supports startups, small businesses, growing companies, and international businesses with practical financial guidance." },
+      { property: "og:title", content: "Business Solutions | FinMy3" },
+      { property: "og:description", content: "See how FinMy3 supports startups, small businesses, growing companies, and international businesses with practical financial guidance." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/solutions")({
 function SolutionsPage() {
   return (
     <>
-      <PageIntro eyebrow="Solutions" title="Financial guidance shaped around your stage" description="Every business has different questions. FinMyTri helps connect the financial work to the needs and opportunities in front of you." />
+      <PageIntro eyebrow="Solutions" title="Financial guidance shaped around your stage" description="Every business has different questions. FinMy3 helps connect the financial work to the needs and opportunities in front of you." />
       <section className="page-content">
         <div className="page-container grid gap-4">
           {solutions.map((solution, index) => {

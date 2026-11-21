@@ -1,4 +1,4 @@
-# Finmytri Floating Chat Hub
+# FinMy3 Floating Chat Hub
 
 Implement exactly the screenshot and nothing else
 

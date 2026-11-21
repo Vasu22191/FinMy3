@@ -1,73 +1,38 @@
 export const services = [
   {
-    name: "Financial Consulting",
-    short: "Practical financial guidance for the decisions that shape your business.",
+    name: "Accounting & Bookkeeping",
+    short: "Accurate financial records, transaction management, and organized bookkeeping to keep your business financially healthy.",
     description:
-      "Work through business priorities with clear financial context, practical options, and a plan that fits the way your company operates.",
-    benefit: "Make decisions with a clearer view of the financial trade-offs.",
-  },
-  {
-    name: "Financial Analysis",
-    short: "Understand the story behind your numbers and what to do next.",
-    description:
-      "Review financial performance, identify meaningful trends, and turn complex figures into straightforward insights for your next decision.",
-    benefit: "See where performance is changing and why it matters.",
-  },
-  {
-    name: "Budgeting and Forecasting",
-    short: "Plan ahead with flexible budgets and forward-looking forecasts.",
-    description:
-      "Build budgets and forecasts around your operating plans, then revisit assumptions as your business and market conditions change.",
-    benefit: "Align financial plans with real business priorities.",
-  },
-  {
-    name: "Cash Flow Management",
-    short: "Bring more visibility to cash timing, needs, and opportunities.",
-    description:
-      "Improve visibility into expected inflows and outflows so you can anticipate cash requirements and plan with greater confidence.",
-    benefit: "Spot upcoming cash needs earlier and act deliberately.",
-  },
-  {
-    name: "MIS Reporting",
-    short: "Get management information that supports timely decisions.",
-    description:
-      "Create a useful reporting rhythm with concise management information tailored to the questions your leadership team needs answered.",
-    benefit: "Keep decision-makers focused on the measures that matter.",
+      "Maintain accurate financial records with transaction management, account reconciliation, reporting support, and organized bookkeeping built around your business operations.",
+    benefit: "Keep your financial records accurate, organized, and ready for informed decisions.",
   },
   {
     name: "Virtual CFO Services",
-    short: "Access ongoing financial leadership without a full-time CFO role.",
+    short: "Strategic financial guidance, budgeting, cash flow management, and financial planning to support business growth.",
     description:
-      "Add strategic financial planning, performance reviews, and leadership support to your team through a flexible virtual CFO relationship.",
-    benefit: "Bring senior financial thinking into regular business conversations.",
+      "Receive senior financial direction through strategic planning, performance reviews, budgeting, forecasting, and ongoing cash flow guidance.",
+    benefit: "Turn financial information into clear direction for growth and performance.",
+  },
+  {
+    name: "Tax Compliance & Support",
+    short: "Assistance with tax planning, regulatory compliance, tax documentation, and timely filing support.",
+    description:
+      "Prepare for tax obligations with practical planning, regulatory guidance, organized documentation, and dependable filing support.",
+    benefit: "Stay organized and compliant with tax requirements and deadlines.",
   },
   {
     name: "Financial Reporting",
-    short: "Make business performance easier to understand and communicate.",
+    short: "Clear and insightful financial reports that help you understand business performance and make informed decisions.",
     description:
-      "Prepare clear, consistent financial reporting that helps owners and leaders understand results and communicate financial performance.",
-    benefit: "Make results easier to review and discuss.",
+      "Create useful management reports with clear summaries of performance, trends, cash flow, and key financial indicators.",
+    benefit: "Understand business performance with reporting that supports timely decisions.",
   },
   {
-    name: "Finance Process Improvement",
-    short: "Make finance workflows clearer, more consistent, and efficient.",
+    name: "Financial Modelling & Financial Strategy",
+    short: "Financial forecasting, scenario analysis, and strategic planning to help businesses prepare for the future.",
     description:
-      "Review finance workflows, clarify responsibilities, and identify practical ways to improve consistency, control, and turnaround time.",
-    benefit: "Reduce avoidable friction in day-to-day finance work.",
-  },
-  {
-    name: "Accounting System Implementation",
-    short: "Set up accounting systems that suit your business operations.",
-    description:
-      "Plan and support accounting system implementation with attention to business requirements, reporting needs, and practical team workflows.",
-    benefit: "Build a stronger foundation for reliable financial information.",
-  },
-  {
-    name: "Cross-border Tax Research",
-    short: "Get research support for questions involving multiple markets.",
-    description:
-      "Organize research around cross-border tax questions and identify relevant considerations to discuss with the appropriate local tax professionals.",
-    benefit: "Approach international tax questions with clearer context.",
+      "Build practical financial models and forward-looking scenarios that support funding, growth, budgeting, and strategic planning.",
+    benefit: "Prepare for future decisions with a clearer view of opportunities and risks.",
   },
 ] as const;
 
@@ -94,11 +59,13 @@ export const solutions = [
   },
 ] as const;
 
-const configuredWhatsApp = import.meta.env["VITE_WHATSAPP_NUMBER"]?.trim() || "918897085834";
+const configuredWhatsApp = import.meta.env["VITE_WHATSAPP_NUMBER"]?.trim() ?? "";
 export const whatsappNumber = configuredWhatsApp.replace(/\D/g, "");
-export const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-  "Hello FinMyTri, I would like to know more about your financial services.",
-)}`;
+export const whatsappUrl = whatsappNumber
+  ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      "Hello FinMy3, I would like to know more about your financial services.",
+    )}`
+  : "";
 
 export const appsScriptUrl = import.meta.env["VITE_GOOGLE_APPS_SCRIPT_URL"]?.trim() ?? "";
 

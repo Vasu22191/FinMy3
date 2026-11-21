@@ -5,9 +5,9 @@ import { ContactCallout, PageIntro, ServiceGrid } from "@/components/finmytri-se
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Financial Services | FinMyTri" },
+      { title: "Financial Services | FinMy3" },
       { name: "description", content: "Explore financial consulting, forecasting, cash flow, reporting, virtual CFO, finance process, accounting systems, and cross-border tax research support." },
-      { property: "og:title", content: "Financial Services | FinMyTri" },
+      { property: "og:title", content: "Financial Services | FinMy3" },
       { property: "og:description", content: "Explore financial consulting, forecasting, cash flow, reporting, virtual CFO, finance process, accounting systems, and cross-border tax research support." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -19,7 +19,11 @@ export const Route = createFileRoute("/services")({
 function ServicesPage() {
   return (
     <>
-      <PageIntro eyebrow="Our services" title="Financial support for clearer business decisions" description="From focused financial analysis to ongoing virtual CFO support, explore practical ways to strengthen your financial view." />
+      <PageIntro
+        eyebrow="Our Services"
+        title="Complete Financial Solutions to Help Your Business Grow"
+        description="At FinMy3, we provide reliable financial services that help businesses simplify operations, maintain compliance, and make smarter financial decisions."
+      />
       <section className="page-content">
         <div className="page-container">
           <ServiceGrid />

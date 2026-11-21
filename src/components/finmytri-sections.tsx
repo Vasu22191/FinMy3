@@ -97,6 +97,9 @@ export function ServiceGrid({ limit }: { limit?: number }) {
                 </p>
               </div>
             )}
+            <Link to="/contact" className="service-card-link">
+              Get Started <ArrowRight size={16} aria-hidden="true" />
+            </Link>
           </article>
         );
       })}
@@ -134,7 +137,7 @@ export function ContactCallout() {
           </h2>
         </div>
         <Button asChild variant="secondary" size="lg">
-          <Link to="/contact">Talk to FinMyTri <ArrowRight aria-hidden="true" /></Link>
+          <Link to="/contact">Talk to FinMy3 <ArrowRight aria-hidden="true" /></Link>
         </Button>
       </div>
     </section>
@@ -149,19 +152,19 @@ export function FaqSection() {
         "A virtual CFO provides ongoing financial leadership such as planning, performance reviews, forecasting, and decision support, delivered flexibly for your business.",
     },
     {
-      question: "Can FinMyTri support an early-stage business?",
+      question: "Can FinMy3 support an early-stage business?",
       answer:
         "Yes. Support can be shaped around startup needs such as budgeting, cash flow visibility, financial reporting, and planning for the next stage.",
     },
     {
       question: "Can I ask about one specific service?",
       answer:
-        "Yes. Use the enquiry form to select a service and share what your business needs. FinMyTri can then respond to your enquiry directly.",
+        "Yes. Use the enquiry form to select a service and share what your business needs. FinMy3 can then respond to your enquiry directly.",
     },
     {
-      question: "Does FinMyTri provide cross-border tax support?",
+      question: "Does FinMy3 provide cross-border tax support?",
       answer:
-        "FinMyTri offers cross-border tax research support to help organize questions and considerations for discussion with relevant local tax professionals.",
+        "FinMy3 offers cross-border tax research support to help organize questions and considerations for discussion with relevant local tax professionals.",
     },
   ];
 
@@ -197,19 +200,22 @@ export function ProcessSteps() {
   ];
 
   return (
-    <div className="steps-grid">
-      {steps.map((step) => (
-        <article key={step.number} className="border-t border-border pt-5">
-          <span className="step-number">{step.number}</span>
-          <h3 className="mt-5 text-lg font-extrabold text-foreground">{step.title}</h3>
-          <p className="mt-2 text-sm leading-7 text-muted-foreground">{step.description}</p>
+    <div className="process-steps-grid">
+      {steps.map((step, index) => (
+        <article key={step.number} className="process-step-card">
+          <div className="process-step-header">
+            <span className="process-step-number">{step.number}</span>
+            {index < steps.length - 1 && <span className="process-step-line" aria-hidden="true" />}
+          </div>
+          <h3>{step.title}</h3>
+          <p>{step.description}</p>
         </article>
       ))}
     </div>
   );
 }
 
-export function WhyFinMyTri() {
+export function WhyFinMy3() {
   const features = [
     { title: "Clearer information", text: "Translate financial detail into useful context for business decisions." },
     { title: "Practical support", text: "Focus on solutions that fit your goals, team, and operating reality." },

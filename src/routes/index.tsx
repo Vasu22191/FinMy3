@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, ShieldCheck, Sparkles, TrendingUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,15 +11,15 @@ import {
   ServiceGrid,
   ServicesLink,
   SolutionsPreview,
-  WhyFinMyTri,
+  WhyFinMy3,
 } from "@/components/finmytri-sections";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "FinMyTri | Smarter Financial Decisions" },
+      { title: "FinMy3 | Smarter Financial Decisions" },
       { name: "description", content: "Financial consulting and virtual CFO support to help businesses plan with clarity and make stronger financial decisions." },
-      { property: "og:title", content: "FinMyTri | Smarter Financial Decisions" },
+      { property: "og:title", content: "FinMy3 | Smarter Financial Decisions" },
       { property: "og:description", content: "Financial consulting and virtual CFO support to help businesses plan with clarity and make stronger financial decisions." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -28,6 +29,28 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [dashboardSlide, setDashboardSlide] = useState(0);
+
+  const dashboardSlides = [
+    { title: "FinMy3 Dashboard", value: "+24.8%", label: "Revenue Growth", series: [22, 35, 30, 44, 39, 53, 49, 66, 58, 78] },
+    { title: "Cash Flow View", value: "+18.4%", label: "Cash Position", series: [26, 32, 38, 42, 48, 56, 52, 64, 70, 76] },
+    { title: "Planning Snapshot", value: "92%", label: "Forecast Accuracy", series: [34, 40, 47, 45, 57, 61, 68, 64, 72, 84] },
+  ];
+
+  const slide = dashboardSlides[dashboardSlide] ?? dashboardSlides[0]!;
+  const series = slide.series;
+
+  const previousSlide = () => setDashboardSlide((current) => (current === 0 ? dashboardSlides.length - 1 : current - 1));
+  const nextSlide = () => setDashboardSlide((current) => (current + 1) % dashboardSlides.length);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setDashboardSlide((current) => (current + 1) % dashboardSlides.length);
+    }, 4000);
+
+    return () => window.clearInterval(timer);
+  }, [dashboardSlides.length]);
+
   return (
     <>
       <section className="hero-section">
@@ -37,7 +60,7 @@ function Index() {
             <h1 className="display-title mt-5">Smarter Financial Decisions. <span className="text-brand">Stronger Businesses.</span></h1>
             <p className="hero-description mt-5">Empowering businesses with smarter financial insights, strategic planning, and expert financial management.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild variant="brand" size="lg"><a href="/services">Explore Our Services <ArrowRight aria-hidden="true" /></a></Button>
+              <Button asChild variant="brand" size="lg" className="!text-white"><a href="/services">Explore Our Services <ArrowRight aria-hidden="true" /></a></Button>
               <Button asChild variant="outline" size="lg"><a href="/contact">Get Started <ArrowUpRight aria-hidden="true" /></a></Button>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold text-muted-foreground">
@@ -45,50 +68,60 @@ function Index() {
               <span className="inline-flex items-center gap-2"><TrendingUp size={17} className="text-brand" aria-hidden="true" /> Built around your business</span>
             </div>
           </div>
-          <div className="hero-artwork" aria-label="Illustrative financial dashboard showing revenue, expenses, and cash flow">
-            <div className="float-note left-0 top-10"><span className="icon-tile !h-9 !w-9"><TrendingUp size={17} aria-hidden="true" /></span><span>Plan with perspective</span></div>
-            <div className="dashboard-visual">
-              <div className="dashboard-topbar">
-                <div>
-                  <p className="text-sm font-extrabold text-foreground">Financial snapshot</p>
-                  <p className="mt-1 text-xs text-muted-foreground">Illustrative view</p>
+
+          <div className="hero-artwork" aria-label="Financial dashboard carousel">
+            <div className="dashboard-carousel">
+              <div className="dashboard-card">
+                <div className="dashboard-card-header">
+                  <h2>{slide.title}</h2>
+                  <div className="dashboard-growth">
+                    <strong>{slide.value}</strong>
+                    <span>{slide.label}</span>
+                  </div>
                 </div>
-                <span className="rounded-full bg-mint-soft px-3 py-1 text-xs font-bold text-foreground">Overview</span>
+                <div className="dashboard-chart-area">
+                  <div className="chart-y-axis" aria-hidden="true">
+                    <span>$40k</span><span>$30k</span><span>$20k</span><span>$10k</span><span>$0</span>
+                  </div>
+                  <div className="dashboard-chart" aria-label={`${slide.label}: ${slide.value}`}>
+                    <svg viewBox="0 0 600 260" role="img" aria-hidden="true" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#6475a8" stopOpacity="0.88" />
+                          <stop offset="55%" stopColor="#25317d" stopOpacity="0.72" />
+                          <stop offset="100%" stopColor="#10165e" stopOpacity="0.98" />
+                        </linearGradient>
+                      </defs>
+                      <g className="chart-grid-lines">
+                        <line x1="0" y1="20" x2="600" y2="20" /><line x1="0" y1="70" x2="600" y2="70" /><line x1="0" y1="120" x2="600" y2="120" /><line x1="0" y1="170" x2="600" y2="170" /><line x1="0" y1="220" x2="600" y2="220" />
+                      </g>
+                      <path className="chart-area" d={`M0,${260 - series[0]! * 2.2} C55,${260 - series[1]! * 2.4} 95,${260 - series[2]! * 2.1} 140,${260 - series[3]! * 2.25} S235,${260 - series[5]! * 2.2} 280,${260 - series[6]! * 2.35} S380,${260 - series[7]! * 2.25} 430,${260 - series[8]! * 2.35} S525,${260 - series[9]! * 2.15} 600,${260 - series[9]! * 2.45} L600,260 L0,260 Z`} />
+                      <path className="chart-line" d={`M0,${260 - series[0]! * 2.2} C55,${260 - series[1]! * 2.4} 95,${260 - series[2]! * 2.1} 140,${260 - series[3]! * 2.25} S235,${260 - series[5]! * 2.2} 280,${260 - series[6]! * 2.35} S380,${260 - series[7]! * 2.25} 430,${260 - series[8]! * 2.35} S525,${260 - series[9]! * 2.15} 600,${260 - series[9]! * 2.45}`} />
+                    </svg>
+                    <div className="chart-x-axis" aria-hidden="true"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span></div>
+                  </div>
+                </div>
               </div>
-              <div className="dashboard-content">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-bold text-muted-foreground">Business performance</p>
-                    <p className="mt-1 text-lg font-extrabold text-foreground">A clearer view of the numbers</p>
-                  </div>
-                  <div className="flex gap-3 text-xs font-semibold text-muted-foreground">
-                    <span className="inline-flex items-center gap-1.5"><i className="size-2 rounded-full bg-brand" />Revenue</span>
-                    <span className="inline-flex items-center gap-1.5"><i className="size-2 rounded-full bg-mint" />Cash flow</span>
-                  </div>
+
+              <div className="dashboard-carousel-footer">
+                <div className="dashboard-dots" aria-label="Choose dashboard slide">
+                  {dashboardSlides.map((item, index) => (
+                    <button key={item.title} type="button" className={index === dashboardSlide ? "active" : ""} onClick={() => setDashboardSlide(index)} aria-label={`Show ${item.title}`} aria-current={index === dashboardSlide ? "true" : undefined} />
+                  ))}
                 </div>
-                <div className="chart-canvas" aria-hidden="true">
-                  <span className="chart-bar bar-1" /><span className="chart-bar bar-2" /><span className="chart-bar bar-3" />
-                  <span className="chart-bar bar-4" /><span className="chart-bar bar-5" /><span className="chart-bar bar-6" />
-                  <span className="chart-bar bar-7" /><span className="chart-bar bar-8" /><span className="chart-bar bar-9" /><span className="chart-bar bar-10" />
-                </div>
-                <div className="flex justify-between px-1 text-[0.68rem] font-semibold text-muted-foreground" aria-hidden="true">
-                  <span>Planning</span><span>Cash flow</span><span>Reporting</span><span>Forecast</span><span>Review</span>
-                </div>
-                <div className="dashboard-foot">
-                  <div><p className="metric-label">Performance</p><p className="metric-value mt-1">Insight-led</p></div>
-                  <div><p className="metric-label">Planning</p><p className="metric-value mt-1">Forward-looking</p></div>
-                  <div><p className="metric-label">Reporting</p><p className="metric-value mt-1">Decision-ready</p></div>
+                <div className="dashboard-arrows">
+                  <button type="button" onClick={previousSlide} aria-label="Previous dashboard"><ArrowRight className="rotate-180" size={18} /></button>
+                  <button type="button" onClick={nextSlide} aria-label="Next dashboard"><ArrowRight size={18} /></button>
                 </div>
               </div>
             </div>
-            <div className="float-note bottom-0 right-0"><span className="text-mint">●</span><span>Clarity, without the clutter</span></div>
           </div>
         </div>
       </section>
 
       <section className="section-block bg-background">
         <div className="page-container">
-          <SectionHeading eyebrow="Financial support that fits" title="Good decisions start with a clear picture" description="From day-to-day visibility to long-range planning, FinMyTri helps make financial information useful in the moments that matter." />
+          <SectionHeading eyebrow="Financial support that fits" title="Good decisions start with a clear picture" description="From day-to-day visibility to long-range planning, FinMy3 helps make financial information useful in the moments that matter." />
           <div className="mt-12"><ServiceGrid limit={3} /></div>
           <div className="mt-8 flex justify-center"><ServicesLink /></div>
         </div>
@@ -96,8 +129,8 @@ function Index() {
 
       <section className="section-block feature-band">
         <div className="page-container">
-          <SectionHeading eyebrow="Why FinMyTri" title="Financial expertise, grounded in your business" description="Build a stronger view of your finances with support shaped around your goals and working reality." />
-          <div className="mt-12"><WhyFinMyTri /></div>
+          <SectionHeading eyebrow="Why FinMy3" title="Financial expertise, grounded in your business" description="Build a stronger view of your finances with support shaped around your goals and working reality." />
+          <div className="mt-12"><WhyFinMy3 /></div>
         </div>
       </section>
 
