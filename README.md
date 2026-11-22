@@ -85,6 +85,8 @@ npm run test
 7. Configure **Execute as: Me** and **Who has access: Anyone**.
 8. Copy the generated `/exec` URL into `VITE_GOOGLE_APPS_SCRIPT_URL`.
 9. Redeploy after script changes and grant Gmail and Sheets permissions when requested.
+10. Set the `Enquiries` table's **Mobile Number** column type to **Text**.
+11. Run `repairPhoneNumberCells()` once after deploying to repair existing phone formula errors.
 
 The script stores submissions in an `Enquiries` sheet and can send:
 

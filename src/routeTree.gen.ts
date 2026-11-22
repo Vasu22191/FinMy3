@@ -16,6 +16,7 @@ import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as TermsConditionsRouteImport } from './routes/terms-conditions'
+import { Route as ApiEnquiryRouteImport } from './routes/api.enquiry'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const TermsConditionsRoute = TermsConditionsRouteImport.update({
   path: '/terms-conditions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiEnquiryRoute = ApiEnquiryRouteImport.update({
+  id: '/api/enquiry',
+  path: '/api/enquiry',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/solutions': typeof SolutionsRoute
   '/terms-conditions': typeof TermsConditionsRoute
+  '/api/enquiry': typeof ApiEnquiryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/solutions': typeof SolutionsRoute
   '/terms-conditions': typeof TermsConditionsRoute
+  '/api/enquiry': typeof ApiEnquiryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/solutions': typeof SolutionsRoute
   '/terms-conditions': typeof TermsConditionsRoute
+  '/api/enquiry': typeof ApiEnquiryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/solutions'
     | '/terms-conditions'
+    | '/api/enquiry'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/solutions'
     | '/terms-conditions'
+    | '/api/enquiry'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/solutions'
     | '/terms-conditions'
+    | '/api/enquiry'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   SolutionsRoute: typeof SolutionsRoute
   TermsConditionsRoute: typeof TermsConditionsRoute
+  ApiEnquiryRoute: typeof ApiEnquiryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsConditionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/enquiry': {
+      id: '/api/enquiry'
+      path: '/api/enquiry'
+      fullPath: '/api/enquiry'
+      preLoaderRoute: typeof ApiEnquiryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   SolutionsRoute: SolutionsRoute,
   TermsConditionsRoute: TermsConditionsRoute,
+  ApiEnquiryRoute: ApiEnquiryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

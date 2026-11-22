@@ -65,9 +65,11 @@ function doPost(request) {
     const rowNumber = sheet.getLastRow() + 1;
 
     sheet.appendRow([
-      new Date(), fullName, businessEmail, phoneNumber,
-      companyName, country, serviceRequired, message, 'New', 'Pending', 'Pending'
+      new Date(), sheetSafeText(fullName), sheetSafeText(businessEmail), '',
+      sheetSafeText(companyName), sheetSafeText(country), sheetSafeText(serviceRequired),
+      sheetSafeText(message), 'New', 'Pending', 'Pending'
     ]);
+    setPhoneNumberText(sheet, rowNumber, phoneNumber);
 
     const teamRecipient = PropertiesService.getScriptProperties().getProperty('GMAIL_TO_ADDRESS')
       || 'finmy3global@gmail.com';
@@ -84,7 +86,7 @@ function doPost(request) {
 
     let confirmationEmailStatus = 'Failed';
     try {
-      sendClientConfirmation(fullName, businessEmail, companyName, serviceRequired, message);
+      sendClientConfirmation(fullName, businessEmail, phoneNumber, companyName, serviceRequired, message);
       sheet.getRange(rowNumber, 11).setValue('Sent');
       confirmationEmailStatus = 'Sent';
       console.info(`SENT confirmation email to client ${businessEmail} for ${fullName}`);
@@ -136,16 +138,16 @@ function sendTeamNotification(teamRecipient, fullName, businessEmail, phoneNumbe
   });
 }
 
-function sendClientConfirmation(fullName, businessEmail, companyName, serviceRequired, message) {
-  const confirmationBody = `Dear ${fullName},\n\nThank you for contacting FinMy3. We have received your application and our team will reach out to you within 2 business days.\n\nYour enquiry details:\nService: ${serviceRequired}\nCompany: ${companyName}\nMessage: ${message}\n\nWarm regards,\nFinMy3 Team\n`;
+function sendClientConfirmation(fullName, businessEmail, phoneNumber, companyName, serviceRequired, message) {
+  const confirmationBody = `Dear ${fullName},\n\nThank you for contacting FinMy3. We have received your application and our team will reach out to you within 2 business days.\n\nYour enquiry details:\nPhone: ${phoneNumber}\nService: ${serviceRequired}\nCompany: ${companyName}\nMessage: ${message}\n\nWarm regards,\nFinMy3 Team\n`;
 
   GmailApp.sendEmail(businessEmail, 'Thank you for contacting FinMy3', confirmationBody, {
     name: 'FinMy3',
-    htmlBody: buildClientEmailHtml(fullName, companyName, serviceRequired, message)
+    htmlBody: buildClientEmailHtml(fullName, phoneNumber, companyName, serviceRequired, message)
   });
 }
 
-function buildClientEmailHtml(fullName, companyName, serviceRequired, message) {
+function buildClientEmailHtml(fullName, phoneNumber, companyName, serviceRequired, message) {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -169,6 +171,7 @@ function buildClientEmailHtml(fullName, companyName, serviceRequired, message) {
             <tr><td style="padding:20px 22px;">
               <p style="margin:0 0 14px;font-size:13px;text-transform:uppercase;letter-spacing:1px;font-weight:700;color:#1f513d;">Your enquiry summary</p>
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr><td style="padding:5px 0;font-size:14px;line-height:1.5;color:#697a72;width:92px;vertical-align:top;"><strong style="color:#18322a;">Phone</strong></td><td style="padding:5px 0;font-size:14px;line-height:1.5;color:#41564d;">${escapeHtml(phoneNumber)}</td></tr>
                 <tr><td style="padding:5px 0;font-size:14px;line-height:1.5;color:#697a72;width:92px;vertical-align:top;"><strong style="color:#18322a;">Service</strong></td><td style="padding:5px 0;font-size:14px;line-height:1.5;color:#41564d;">${escapeHtml(serviceRequired)}</td></tr>
                 <tr><td style="padding:5px 0;font-size:14px;line-height:1.5;color:#697a72;vertical-align:top;"><strong style="color:#18322a;">Company</strong></td><td style="padding:5px 0;font-size:14px;line-height:1.5;color:#41564d;">${escapeHtml(companyName)}</td></tr>
                 <tr><td style="padding:10px 0 5px;font-size:14px;line-height:1.5;color:#697a72;vertical-align:top;"><strong style="color:#18322a;">Message</strong></td><td style="padding:10px 0 5px;font-size:14px;line-height:1.6;color:#41564d;">${escapeHtml(message).replace(/\\n/g, '<br>')}</td></tr>
@@ -239,6 +242,40 @@ function escapeHtml(value) {
     .replace(/'/g, '&#039;');
 }
 
+function sheetSafeText(value) {
+  return /^[=+\-@]/.test(value) ? "'" + value : value;
+}
+
+function setPhoneNumberText(sheet, rowNumber, phoneNumber) {
+  const phoneCell = sheet.getRange(rowNumber, 4);
+  phoneCell.setNumberFormat('@');
+  // Rich text keeps the leading "+" literal instead of parsing it as a formula.
+  const phoneText = SpreadsheetApp.newRichTextValue()
+    .setText(phoneNumber)
+    .build();
+  phoneCell.setRichTextValue(phoneText);
+}
+
+function repairPhoneNumberCells() {
+  const sheet = getSheet();
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return { checked: 0, repaired: 0 };
+
+  const phoneRange = sheet.getRange(2, 4, lastRow - 1, 1);
+  const formulas = phoneRange.getFormulas();
+  let repaired = 0;
+
+  formulas.forEach(([formula], index) => {
+    const possiblePhone = String(formula || '').replace(/^=/, '');
+    if (!/^\+[\d\s().-]+$/.test(possiblePhone)) return;
+    setPhoneNumberText(sheet, index + 2, possiblePhone);
+    repaired++;
+  });
+
+  Logger.log(`Checked ${lastRow - 1} phone cells; repaired ${repaired} formula-like phone values.`);
+  return { checked: lastRow - 1, repaired: repaired };
+}
+
 function testEmailSending() {
   const testRecipient = Session.getEffectiveUser().getEmail();
   const testSubject = 'Test Email from FinMy3';
@@ -288,12 +325,14 @@ function testConfirmationEmail() {
     || 'finmy3global@gmail.com';
 
   try {
-    GmailApp.sendEmail(recipient, 'Thank you for contacting FinMy3',
-      'Dear Client Test,\n\nThank you for contacting FinMy3. We have received your application and our team will reach out within 2 business days.\n\nWarm regards,\nFinMy3 Team',
-      {
-        name: 'FinMy3',
-        htmlBody: buildClientEmailHtml('Client Test', 'FinMy3 Test Company', 'Virtual CFO Services', 'This is a professional confirmation email test.')
-      });
+    sendClientConfirmation(
+      'Client Test',
+      recipient,
+      '+91 98765 43210',
+      'FinMy3 Test Company',
+      'Virtual CFO Services',
+      'This is a professional confirmation email test.',
+    );
     Logger.log(`Professional confirmation test sent to ${recipient}.`);
   } catch (error) {
     Logger.log('Professional confirmation test failed: ' + error.message);
@@ -314,6 +353,7 @@ function processPendingEnquiries() {
     const rowNumber = index + 2;
     const fullName = String(row[1] || '').trim();
     const businessEmail = String(row[2] || '').trim();
+    const phoneNumber = String(row[3] || '').trim();
     const companyName = String(row[4] || '').trim();
     const serviceRequired = String(row[6] || '').trim();
     const message = String(row[7] || '').trim();
@@ -323,7 +363,7 @@ function processPendingEnquiries() {
     if (confirmationStatus === 'Sent') return;
 
     try {
-      sendClientConfirmation(fullName, businessEmail, companyName, serviceRequired, message);
+      sendClientConfirmation(fullName, businessEmail, phoneNumber, companyName, serviceRequired, message);
       sheet.getRange(rowNumber, 11).setValue('Sent');
       logEmailResult('Thank you for contacting FinMy3', businessEmail, true, 'Sent from spreadsheet');
       sent++;
