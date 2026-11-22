@@ -103,7 +103,7 @@ Email delivery and failure statuses are recorded in `Email Log`.
 2. Create a new Vercel project.
 3. Import the repository.
 4. Use these settings:
-   - Framework Preset: `Vite`
+   - Framework Preset: `TanStack Start`
    - Build Command: `npm run build`
    - Install Command: `npm install`
 5. Add the environment variables from `.env.example` in Vercel Project Settings.
