@@ -13,17 +13,6 @@ const navigation = [
   { label: "Contact Us", to: "/contact" as const },
 ];
 
-function BrandLockup() {
-  return (
-    <Link to="/" className="brand-lockup" aria-label="FinMy3 home">
-      <span className="brand-mark" aria-hidden="true">
-        F
-      </span>
-      <span>FinMy3</span>
-    </Link>
-  );
-}
-
 function HeaderBrandLockup() {
   return (
     <Link to="/" className="brand-lockup" aria-label="FinMy3 Global home">
@@ -105,7 +94,7 @@ export function SiteFooter() {
       <div className="page-container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <BrandLockup />
+            <HeaderBrandLockup />
             <p className="mt-4 max-w-xs text-sm leading-7 text-muted-foreground">
               Financial consulting and virtual CFO support for clearer business decisions.
             </p>

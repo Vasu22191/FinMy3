@@ -497,6 +497,10 @@
   color: var(--primary-foreground);
 }
 
+.feature-band .section-heading .section-title {
+  color: #fff;
+}
+
 @utility feature-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
