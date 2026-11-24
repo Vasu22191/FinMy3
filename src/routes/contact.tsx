@@ -10,11 +10,13 @@ export const Route = createFileRoute("/contact")({
     meta: [
       { title: "Contact FinMy3 | Start a Financial Conversation" },
       { name: "description", content: "Send FinMy3 an enquiry about financial consulting, business planning, cash flow, reporting, or virtual CFO services." },
+      { property: "og:url", content: "https://www.finmy3global.com/contact" },
       { property: "og:title", content: "Contact FinMy3 | Start a Financial Conversation" },
       { property: "og:description", content: "Send FinMy3 an enquiry about financial consulting, business planning, cash flow, reporting, or virtual CFO services." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://www.finmy3global.com/contact" }],
   }),
   component: ContactPage,
 });

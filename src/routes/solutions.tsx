@@ -13,11 +13,13 @@ export const Route = createFileRoute("/solutions")({
     meta: [
       { title: "Business Solutions | FinMy3" },
       { name: "description", content: "See how FinMy3 supports startups, small businesses, growing companies, and international businesses with practical financial guidance." },
+      { property: "og:url", content: "https://www.finmy3global.com/solutions" },
       { property: "og:title", content: "Business Solutions | FinMy3" },
       { property: "og:description", content: "See how FinMy3 supports startups, small businesses, growing companies, and international businesses with practical financial guidance." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://www.finmy3global.com/solutions" }],
   }),
   component: SolutionsPage,
 });

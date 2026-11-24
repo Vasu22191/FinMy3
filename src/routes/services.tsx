@@ -7,11 +7,13 @@ export const Route = createFileRoute("/services")({
     meta: [
       { title: "Financial Services | FinMy3" },
       { name: "description", content: "Explore financial consulting, forecasting, cash flow, reporting, virtual CFO, finance process, accounting systems, and cross-border tax research support." },
+      { property: "og:url", content: "https://www.finmy3global.com/services" },
       { property: "og:title", content: "Financial Services | FinMy3" },
       { property: "og:description", content: "Explore financial consulting, forecasting, cash flow, reporting, virtual CFO, finance process, accounting systems, and cross-border tax research support." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://www.finmy3global.com/services" }],
   }),
   component: ServicesPage,
 });

@@ -9,10 +9,12 @@ export const Route = createFileRoute("/about")({
     meta: [
       { title: "About FinMy3 | Financial Clarity for Business" },
       { name: "description", content: "Learn about FinMy3's mission, vision, and professional financial solutions for growing businesses." },
+      { property: "og:url", content: "https://www.finmy3global.com/about" },
       { property: "og:title", content: "About FinMy3 | Financial Clarity for Business" },
       { property: "og:description", content: "Learn about FinMy3's mission, vision, and professional financial solutions for growing businesses." },
       { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://www.finmy3global.com/about" }],
   }),
   component: AboutPage,
 });

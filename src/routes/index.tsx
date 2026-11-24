@@ -19,11 +19,13 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "FinMy3 | Smarter Financial Decisions" },
       { name: "description", content: "Financial consulting and virtual CFO support to help businesses plan with clarity and make stronger financial decisions." },
+      { property: "og:url", content: "https://www.finmy3global.com/" },
       { property: "og:title", content: "FinMy3 | Smarter Financial Decisions" },
       { property: "og:description", content: "Financial consulting and virtual CFO support to help businesses plan with clarity and make stronger financial decisions." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://www.finmy3global.com/" }],
   }),
   component: Index,
 });

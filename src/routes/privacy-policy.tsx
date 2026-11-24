@@ -5,11 +5,13 @@ export const Route = createFileRoute("/privacy-policy")({
     meta: [
       { title: "Privacy Policy | FinMy3" },
       { name: "description", content: "Read how FinMy3 handles information shared through its business enquiry form and contact channels." },
+      { property: "og:url", content: "https://www.finmy3global.com/privacy-policy" },
       { property: "og:title", content: "Privacy Policy | FinMy3" },
       { property: "og:description", content: "Read how FinMy3 handles information shared through its business enquiry form and contact channels." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://www.finmy3global.com/privacy-policy" }],
   }),
   component: PrivacyPolicyPage,
 });

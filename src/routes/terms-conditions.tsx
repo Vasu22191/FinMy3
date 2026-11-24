@@ -5,11 +5,13 @@ export const Route = createFileRoute("/terms-conditions")({
     meta: [
       { title: "Terms and Conditions | FinMy3" },
       { name: "description", content: "Review the terms for using the FinMy3 website and its general financial consulting information." },
+      { property: "og:url", content: "https://www.finmy3global.com/terms-conditions" },
       { property: "og:title", content: "Terms and Conditions | FinMy3" },
       { property: "og:description", content: "Review the terms for using the FinMy3 website and its general financial consulting information." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://www.finmy3global.com/terms-conditions" }],
   }),
   component: TermsPage,
 });
